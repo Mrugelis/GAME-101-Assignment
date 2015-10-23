@@ -6,52 +6,38 @@ using System.Threading.Tasks;
 
 namespace GAME_101_Text_RPG
 {
-    class Enemy
+    class Enemy:Character 
     {
-
-        string enemyName;
-        int weaponCount;
-        bool isAlive;
-        int currentState;
-
 
         public Enemy()
         {
-            enemyName = "enemy";
+            Name = "enemy";
             weaponCount = 5;
-            isAlive = true;
+            Health = 5;
             currentState = 2;
+            Level = 1;
         }
 
-        public Enemy(string name, int weapon, bool alive, int state)
+        public Enemy(string name, int level, bool alive, int state)
         {
             Name = name;
-            Weapon = weapon;
-            Alive = alive;
+            Weapon = getWeapon(Level);
+            Level = level;
             State = state;
+            
         }
 
-        public string Name
-        {
-            get
-            {
-                return enemyName;
-            }
-            set{
-                enemyName = value; 
-            }
-        }
 
         public int Weapon
         {
             get
             {
-                return weaponCount;
+                return weapon;
             }
 
             set
             {
-                weaponCount = value;
+                weapon = value;
             }
         }
 
