@@ -28,28 +28,28 @@ namespace GAME_101_Text_RPG
         }
 
         public Weapon WeaponCache(int level, int index)
-        {       
-                return weaponCache[level, index];
+        {
+            return weaponCache[level, index];
         }
 
         public Weapon getWeapon(int level, bool isPlayer)
         {
             //takes level of character and checks to see if it is the player and dispenses a weapon
-            
+
             Random rnd = new Random();
 
-            if(isPlayer == false)
+            if (isPlayer == false)
             {
-                rnd.Next(1,5);
+                rnd.Next(1, 5);
 
-                return WeaponCache(level,rnd.Next(1,5));
+                return WeaponCache(level, rnd.Next(1, 5));
             }
             else
             {
 
-               rnd.Next(1, 5);
+                rnd.Next(1, 5);
 
-               return WeaponCache(level, rnd.Next(1, 5));
+                return WeaponCache(level, rnd.Next(1, 5));
             }
         }
 
