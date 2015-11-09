@@ -13,6 +13,7 @@ namespace GAME_101_Text_RPG
         int level;
         string name;
         int experience;
+        int location;
 
         public Character()
         {
@@ -72,6 +73,18 @@ namespace GAME_101_Text_RPG
             set
             {
                 experience = value;
+            }
+        }
+
+        public int Location
+        {
+            get
+            {
+                return location;
+            }
+            set
+            {
+                location = value;
             }
         }
     }

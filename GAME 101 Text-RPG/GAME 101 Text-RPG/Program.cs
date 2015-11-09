@@ -10,6 +10,54 @@ namespace GAME_101_Text_RPG
     {
         static void Main(string[] args)
         {
+            bool game = true;
+            bool title = true;
+            int choice;
+            Engine engine = new Engine(); //instantiates game
+            Player player = new Player();
+
+            while (game == true) //while we want to run the game
+            {
+                if (title == true) //if title is true draw the title screen
+                {
+                    engine.Draw(title);
+                    choice = engine.ReadInput(engine.Title.GetIndex); //waits for user input to proceed
+                    if (choice == 1) //choice = 1 means run game, choice = 2 means quit game
+                    {
+                        title = false;
+                        //preload game assets here
+                    }
+                    else
+                    {
+                        game = false;
+                        break;
+                    }
+                }
+                else
+                {
+                    game = engine.Update();
+                }
+            }
+        }
+
+        //goes in engine
+        public bool Update()
+        {
+           
+           int choice = engine.ReadInput(Player.Location); 
+           if(choice==9)
+            {
+                return false;
+            }
+            else
+            {
+                //call game logic
+                return true;
+            }
+        }
+
+        /*static void Main(string[] args)
+        {
             Enemy firstEnemy = new Enemy();
             Enemy secondEnemy = new Enemy("Bob", 3, true, 10);
             int gameState = 1;
@@ -49,8 +97,37 @@ namespace GAME_101_Text_RPG
            {
                Console.WriteLine("story continues");
 
+
+            
            }
+
+            titleScreen();
+
+
         }
+
+        static void infoScreen(int state)
+        {
+            bool screen = true;
+            string info = "How to play:" + "\r\n" + "";
+            Console.Write(info);
+            while(screen == true)
+            {
+                string input = Console.ReadLine();
+                if (input == "1" && state == 1)
+                {
+                    screen = false; //not neccessary, since this just holds the screen waiting for input?
+                    Console.Clear();
+                    titleScreen();
+                }
+            }
+         
+        }
+
+        static void titleScreen()
+        {
+
+        } */
     }
 }
 
