@@ -10,10 +10,11 @@ namespace GAME_101_Text_RPG
     {
         int location;
         int input;
+        string title = "Welcome to the game: 1 for start 0 to quit.";
 
-        public Engine()
+        public Engine(int ploc)
         {
-            location = 1;
+            location = ploc;
             input = 1;
         }
 
@@ -30,17 +31,24 @@ namespace GAME_101_Text_RPG
         public static int userInput(int index)
         {
             int choice;
-            if (int.TryParse(Console.ReadLine(), out choice) && 0 <= choice && choice <= index)
+            if (Int32.TryParse(Console.ReadLine(), out choice) && 0 <= choice && choice <= index)
             {
                 return choice;
             }
             else
             {
                 Console.WriteLine("Invalid choice");
-                return userInput(index);
+                return userInput(choice);
             }
         }
-        public bool Update()
+        
+        public string TitleScreen{
+
+            get { return title; }
+            
+            
+            }
+       /* public bool Update()
         {
             if (input == 0)
             {
@@ -51,7 +59,22 @@ namespace GAME_101_Text_RPG
                 return true;
             }
 
+        }*/
+        public static void DrawRoom(Dictionary<int, string> room)
+        {
+            for (int i = 1; i <= room.Count; i++)
+            {
+                Console.WriteLine(room[i]);
+            }
         }
+        /*struct Room
+        {
+            public string choice1;
+            public string choice2;
+            public string choice3;
+            public string choice4;
+            public string choice5;
+        }*/
         public static void Draw(string str)
         {
             Console.WriteLine(str);
@@ -71,7 +94,7 @@ namespace GAME_101_Text_RPG
                 return getRoom(location)[userInput(choice)];
             }
         }
-
+     
         public static Dictionary<int, string> getRoom(int index)
         {
             //index is the choice the player makes at a decision point
@@ -217,8 +240,15 @@ namespace GAME_101_Text_RPG
             {
                 {1,"That is not a floor or room in this building" }
             };
+
+            Dictionary<int, string> title = new Dictionary<int, string>()
+            {
+                {1,"Start the game!" },
+                {2,"Quit."}
+            };
             Dictionary<int, Dictionary<int, string>> building = new Dictionary<int, Dictionary<int, string>>()
             {
+        {0,title },
         { 1, f1R1},
         { 2, f1R2},
         { 3, f1R3},
@@ -237,15 +267,7 @@ namespace GAME_101_Text_RPG
         {16, error }
             };
 
-            if (index > 0 && index < 5)
-            {
-                return building[index];
-            }
-            else if (index > 4 && index < 10)
-            {
-                return building[index];
-            }
-            else if (index > 10 && index < 16)
+            if (index > 0 && index <=16)
             {
                 return building[index];
             }

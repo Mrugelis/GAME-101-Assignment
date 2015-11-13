@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace GAME_101_Text_RPG
+/*namespace GAME_101_Text_RPG
 {
     class Enemy:Character 
     {
@@ -90,4 +90,4 @@ namespace GAME_101_Text_RPG
         }
 
     }
-}
+}*/

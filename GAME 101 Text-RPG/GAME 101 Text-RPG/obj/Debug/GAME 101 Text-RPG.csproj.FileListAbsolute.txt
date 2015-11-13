@@ -13,3 +13,6 @@ C:\Users\MARTINS\Desktop\GAME 101 Text-RPG\GAME 101 Text-RPG\GAME 101 Text-RPG\o
 F:\GitHub\GAME-101-Assignment\GAME 101 Text-RPG\GAME 101 Text-RPG\bin\Debug\GAME 101 Text-RPG.exe.config
 F:\GitHub\GAME-101-Assignment\GAME 101 Text-RPG\GAME 101 Text-RPG\obj\Debug\GAME 101 Text-RPG.exe
 F:\GitHub\GAME-101-Assignment\GAME 101 Text-RPG\GAME 101 Text-RPG\obj\Debug\GAME 101 Text-RPG.pdb
+F:\GitHub\GAME-101-Assignment\GAME 101 Text-RPG\GAME 101 Text-RPG\obj\Debug\GAME 101 Text-RPG.csprojResolveAssemblyReference.cache
+F:\GitHub\GAME-101-Assignment\GAME 101 Text-RPG\GAME 101 Text-RPG\bin\Debug\GAME 101 Text-RPG.exe
+F:\GitHub\GAME-101-Assignment\GAME 101 Text-RPG\GAME 101 Text-RPG\bin\Debug\GAME 101 Text-RPG.pdb

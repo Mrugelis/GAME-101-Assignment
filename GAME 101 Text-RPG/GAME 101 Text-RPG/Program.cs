@@ -14,40 +14,41 @@ namespace GAME_101_Text_RPG
             bool title = true;
             int choice;
             int re = 1;
-            int location;
-            Engine engine = new Engine(); //instantiates game
+            int location = 0;
+            Engine engine = new Engine(location); //instantiates game
             Player player = new Player();
 
             while (game == true) //while we want to run the game
             {
-                if (title == true) //if title is true draw the title screen
+              
+                    Engine.Draw(engine.TitleScreen);
+                    choice = Engine.userInput(2);// Engine.getRoom(location).Count); get this fucntionality working
+                if (choice == 1) //choice = 1 means run game, choice = 2 means quit game
                 {
-                    engine.Draw(Engine.Title);
-                    choice = Engine.userInput(Engine.Title.GetIndex); //waits for user input to proceed
-                    if (choice == 1) //choice = 1 means run game, choice = 2 means quit game
+                    engine.Location++;
+                    location++;
+                    title = false;
+                    while (re != 0)
                     {
-                        title = false;
-                        while (re != 0)
-                        {
-                            Console.WriteLine("What is your location");
-                            Int32.TryParse(Console.ReadLine(), out location);
-                            engine.Location = location;
-                            Console.WriteLine("What is your choice");
-                            Engine.Draw(Engine.getString(engine.Location));
-                        }
+                        Console.Clear();
+                        Engine.DrawRoom(Engine.getRoom(engine.Location));
+                        /*Console.WriteLine("What is your location");
+                        Int32.TryParse(Console.ReadLine(), out location);
+                        engine.Location = location;*/
+                        Update(ref location, userInput(5));
+                        engine.Location = location;
 
-                        //preload game assets here
                     }
-                    else
-                    {
-                        game = false;
-                        break;
-                    }
+
+                    //preload game assets here
                 }
                 else
                 {
-                    game = engine.Update();
+                    game = false;
+                    break;
                 }
+            
+                
             }
         }
 
@@ -61,16 +62,26 @@ namespace GAME_101_Text_RPG
             }
             else
             {
-                /*if (validChoice == true)
-               // {
+                /* if (validChoice == true)
+                {
                     Console.WriteLine(“Invalid choice, please select an option.”);
                     validChoice = false;
-                }*/
+                } */
                 return userInput(index);
             }
         }
+        
+        public static void Update(ref int room, int x)
+        {
+            if(x == 4)
+            {
+                room++;
+            }
+            //game logic here
+        }
+
         //goes in engine
-        public bool Update()
+       /* public bool Update()
         {
            
            int choice = engine.ReadInput(Player.Location); 
@@ -85,7 +96,7 @@ namespace GAME_101_Text_RPG
             }
         }
 
-        /*static void Main(string[] args)
+        static void Main(string[] args)
         {
             Enemy firstEnemy = new Enemy();
             Enemy secondEnemy = new Enemy("Bob", 3, true, 10);
