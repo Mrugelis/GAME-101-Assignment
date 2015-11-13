@@ -11,7 +11,6 @@ namespace GAME_101_Text_RPG
         static void Main(string[] args)
         {
             bool game = true;
-            bool title = true;
             int choice;
             int re = 1;
             int location = 0;
@@ -27,11 +26,10 @@ namespace GAME_101_Text_RPG
                 {
                     engine.Location++;
                     location++;
-                    title = false;
                     while (re != 0)
                     {
                         Console.Clear();
-                        Engine.DrawRoom(Engine.getRoom(engine.Location));
+                        Engine.Draw(Engine.getRoom(engine.Location));
                         /*Console.WriteLine("What is your location");
                         Int32.TryParse(Console.ReadLine(), out location);
                         engine.Location = location;*/
@@ -77,7 +75,7 @@ namespace GAME_101_Text_RPG
             {
                 room++;
             }
-            //game logic here
+            //game logic here, what do you draw
         }
 
         //goes in engine
