@@ -13,6 +13,8 @@ namespace GAME_101_Text_RPG
             bool game = true;
             bool title = true;
             int choice;
+            int re = 1;
+            int location;
             Engine engine = new Engine(); //instantiates game
             Player player = new Player();
 
@@ -20,11 +22,20 @@ namespace GAME_101_Text_RPG
             {
                 if (title == true) //if title is true draw the title screen
                 {
-                    engine.Draw(title);
-                    choice = engine.ReadInput(engine.Title.GetIndex); //waits for user input to proceed
+                    engine.Draw(Engine.Title);
+                    choice = Engine.userInput(Engine.Title.GetIndex); //waits for user input to proceed
                     if (choice == 1) //choice = 1 means run game, choice = 2 means quit game
                     {
                         title = false;
+                        while (re != 0)
+                        {
+                            Console.WriteLine("What is your location");
+                            Int32.TryParse(Console.ReadLine(), out location);
+                            engine.Location = location;
+                            Console.WriteLine("What is your choice");
+                            Engine.Draw(Engine.getString(engine.Location));
+                        }
+
                         //preload game assets here
                     }
                     else
@@ -40,6 +51,24 @@ namespace GAME_101_Text_RPG
             }
         }
 
+        public static int userInput(int index)
+        {
+            int choice;
+            if (Int32.TryParse(Console.ReadLine(), out choice) && 0 < choice && choice <= index)
+            {
+               // validChoice = true;  //global validation variable
+                return choice;
+            }
+            else
+            {
+                /*if (validChoice == true)
+               // {
+                    Console.WriteLine(“Invalid choice, please select an option.”);
+                    validChoice = false;
+                }*/
+                return userInput(index);
+            }
+        }
         //goes in engine
         public bool Update()
         {

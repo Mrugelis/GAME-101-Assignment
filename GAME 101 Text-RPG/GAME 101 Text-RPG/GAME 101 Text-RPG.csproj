@@ -43,6 +43,7 @@
   <ItemGroup>
     <Compile Include="Building.cs" />
     <Compile Include="Character.cs" />
+    <Compile Include="Engine.cs" />
     <Compile Include="Weapon.cs" />
     <Compile Include="Player.cs" />
     <Compile Include="Enemy.cs" />
