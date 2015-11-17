@@ -8,7 +8,6 @@ namespace GAME_101_Text_RPG
 {
     class Engine
     {
-        int location;
         int input;
         string title = "Welcome to the game: 1 for start 0 to quit.";
      /* Building build = new Building(); 
@@ -21,10 +20,10 @@ namespace GAME_101_Text_RPG
             input = 1;
         }
 
-        public int Location
+        public static int Location(int choice)
         {
-            get { return location; }
-            set { location = value; }
+            int where = choice;
+            return where;
         }
 
         public int Input
@@ -38,6 +37,7 @@ namespace GAME_101_Text_RPG
             int choice;
             if (Int32.TryParse(Console.ReadLine(), out choice) && 0 <= choice && choice <= index)
             {
+                Location(choice);
                 return choice;
             }
             else
