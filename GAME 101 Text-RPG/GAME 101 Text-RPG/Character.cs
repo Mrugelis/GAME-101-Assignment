@@ -26,7 +26,7 @@ namespace GAME_101_Text_RPG
         {
             get
             {
-                return Name;
+                return name;
             }
             set
             {

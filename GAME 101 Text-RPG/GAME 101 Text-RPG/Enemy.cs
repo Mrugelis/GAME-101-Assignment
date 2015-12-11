@@ -4,40 +4,60 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-/*namespace GAME_101_Text_RPG
+namespace GAME_101_Text_RPG
 {
     class Enemy:Character 
     {
+        int type; //0 regular monster, 1 hard monster, 3 boss monster
+        int weaponDamage; 
+        int currentState; //0 aware, 1 unaware
 
-        public Enemy()
+        public Enemy(int kind)
         {
-            Name = "enemy";
-            weaponCount = 5;
-            Health = 5;
-            currentState = 2;
-            Level = 1;
-        }
-
-        public Enemy(string name, int level, bool alive, int state)
-        {
-            Name = name;
-            Weapon = getWeapon(Level);
-            Level = level;
-            State = state;
+            switch (kind)
+            {
+                case 0:
+                    Name = "Monster";
+                    weaponDamage = 15;
+                    Health = 50;
+                    Level = 1;
+                    type = kind;
+                    break;
+                case 1:
+                    Name = "Crazy Monster";
+                    weaponDamage = 25;
+                    Health = 70;
+                    Level = 2;
+                    type = kind;
+                    break;
+                case 3:
+                    Name = "Boss Monster";
+                    weaponDamage = 35;
+                    Health = 105;
+                    Level = 5;
+                    type = kind;
+                    break;
+                default:
+                    Name = "Monster";
+                    weaponDamage = 15;
+                    Health = 5;
+                    Level = 1;
+                    type = kind;
+                    break;
+            }
             
         }
 
-
-        public int Weapon
+        public int WeaponDamage
         {
             get
             {
-                return weapon;
+                return weaponDamage;
             }
 
             set
             {
-                weapon = value;
+                weaponDamage = value;
             }
         }
 
@@ -54,40 +74,17 @@ using System.Threading.Tasks;
             }
         }
 
-        public bool Alive
+        public int Type
         {
-       
             get
             {
-                return isAlive;
+                return type;
             }
 
             set
             {
-                isAlive = value;
+                type = value;
             }
-      
         }
-
-        public void enemyAttack()
-        {
-            Console.WriteLine("");
-        }
-
-        public void enemyPatrol()
-        {
-            Console.WriteLine("You hear lumbering, pounding footsteps in the fog.");
-        }
-
-        public void enemyAlert()
-        {
-            Console.WriteLine("Seems that we have a their lurking about!");
-        }
-
-        public void enemyDeath()
-        {
-            Console.WriteLine("You win!");
-        }
-
     }
-}*/
+}

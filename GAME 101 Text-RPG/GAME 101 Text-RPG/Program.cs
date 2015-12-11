@@ -12,160 +12,140 @@ namespace GAME_101_Text_RPG
         {
             bool game = true;
             int choice;
-            int re = 1;
-            int location = 0;
-            Engine engine = new Engine(location); //instantiates game
+            int select;
+            int condition;
+            bool newGame = false; //return to title
+            string answer;
+            Engine engine = new Engine();
             Player player = new Player();
-
             while (game == true) //while we want to run the game
             {
-              
-                    Engine.Draw(engine.TitleScreen);
-                    choice = Engine.userInput(2);// Engine.getRoom(location).Count); get this fucntionality working
-                if (choice == 1) //choice = 1 means run game, choice = 2 means quit game
+                if(newGame == true) //if new game is true, create a new instance of the game
                 {
-                    engine.Location++;
-                    location++;
-                    while (re != 0)
-                    {
-                        Console.Clear();
-                        Engine.Draw(Engine.getRoom(engine.Location));
-                        /*Console.WriteLine("What is your location");
-                        Int32.TryParse(Console.ReadLine(), out location);
-                        engine.Location = location;*/
-                        Update(ref location, userInput(5));
-                        engine.Location = location;
-
-                    }
-
-                    //preload game assets here
+                    engine.Reset();
+                    player.Reset();
+                    newGame = false;
                 }
-                else
+                Engine.Clear();
+                engine.Update(player, 0);
+                Engine.Draw(engine.Choices[0]);
+                Engine.Draw(engine.getChoiceList(player.Location), player.Location);
+                choice = Engine.userInput(engine.getChoiceList(player.Location).Count);       //wait for input
+                switch (choice)
                 {
-                    game = false;
-                    break;
-                }
-            
-                
+                    case 1: //start game
+                        Engine.Clear();
+                        Engine.Draw("Instructions:\nAt any time entering 0 will return you to the main menu, \nno progress will be saved in this version.\nDecisions will be listed by number, \nand entering a number will execute the corresponding choice.\nPress Enter to continue.");
+                        Engine.ReadLine();
+                        Engine.Clear();
+                        engine.Update(player, choice-1); //sets passed value of choice to 0
+                        Engine.Draw(engine.Results[0]);//initial story string, getting username
+                        player.Name = Engine.getInput();
+                        Engine.Clear();
+                        Engine.Draw(engine.Results[1], player.Name); //intial story string
+                        player.Location = 1;
+                        engine.Update(player, choice);
+                        while (engine.GameRunning==true)
+                        {
+                            Engine.Clear();
+                            Engine.Draw(player);
+                            Engine.Draw(engine.Results[0]);
+                            Engine.Draw(engine.getChoiceList(player.Location), player.Location);
+                            choice = Engine.userInput(engine.getChoiceList(player.Location).Count);
+                            switch (choice)
+                            {
+                                case 0: //return to title
+                                    Engine.Draw("Are you sure you want to return to the main menu? Y/N"); //all string literals in Program.cs will be moved to a dictionary object to be referenced
+                                    answer = Engine.getInput();
+                                    if(answer == "y" || answer == "Y")
+                                    {
+                                        engine.GameRunning = false;
+                                        newGame = true;
+                                        Engine.Clear();
+                                    }
+                                    break;
+                                case 1:
+
+                                    break; 
+                                case 2:
+                                    break;
+
+                                case 3:
+                                    if (player.Location > 1)
+                                    {
+                                        player.Location--;
+                                        engine.Update(player, choice);
+                                    }
+                                    break;
+                                case 4:
+                                    if(player.Location < 5)
+                                    {
+                                        player.Location++;
+                                        engine.Update(player, choice);
+                                    }
+                                    else
+                                    {
+                                        condition = player.Collect;
+                                        switch (condition)
+                                        {
+                                            case 1:
+                                                Engine.Draw("There are still 2 peices i need to complete the lock");
+                                                Engine.ReadLine();
+
+                                                break;
+                                            case 2:
+                                                Engine.Draw("The last piece has to be somewhere");
+                                                Engine.ReadLine();
+
+                                                break;
+                                            case 3:
+                                                Engine.Draw("I've done it! I'm finally going to be free of this place!");
+                                                Engine.ReadLine();
+
+                                                //player.Location = 16;
+                                                //do final boss combat, and victory strings with final scoreboard
+
+                                                break;
+                                            default:
+                                                Engine.Draw("There seems to be three peices needed to complete the locking mechanism.");
+                                                Engine.ReadLine();
+
+                                                break;
+                                        }
+                                    }
+                                    break;
+                                case 5:
+                                    break;
+                                default:
+                                    choice = Engine.userInput(engine.getChoiceList(player.Location).Count);
+                                    break;
+                            }
+                        }
+                        break;
+                    case 2: //credits
+                        Engine.Clear();
+                        Engine.Draw(engine.Results[2]);
+                        Engine.Draw("1: Return to main menu");
+                        choice = Engine.Read();
+                        while(choice !=1)
+                        {
+                            Engine.Clear();
+                            Engine.Draw(engine.Results[2]);
+                            Engine.Draw("1: Return to main menu");
+                            choice = Engine.Read();
+                        }
+                   
+                        break;
+                    case 3: //exit game
+                        game = false;
+                        break;
+                    default:
+                        break;
+                }                   
             }
         }
 
-        public static int userInput(int index)
-        {
-            int choice;
-            if (Int32.TryParse(Console.ReadLine(), out choice) && 0 < choice && choice <= index)
-            {
-               // validChoice = true;  //global validation variable
-                return choice;
-            }
-            else
-            {
-                /* if (validChoice == true)
-                {
-                    Console.WriteLine(“Invalid choice, please select an option.”);
-                    validChoice = false;
-                } */
-                return userInput(index);
-            }
-        }
-        
-        public static void Update(ref int room, int x)
-        {
-            if(x == 4)
-            {
-                room++;
-            }
-            //game logic here, what do you draw
-        }
 
-        //goes in engine
-       /* public bool Update()
-        {
-           
-           int choice = engine.ReadInput(Player.Location); 
-           if(choice==9)
-            {
-                return false;
-            }
-            else
-            {
-                //call game logic
-                return true;
-            }
-        }
-
-        static void Main(string[] args)
-        {
-            Enemy firstEnemy = new Enemy();
-            Enemy secondEnemy = new Enemy("Bob", 3, true, 10);
-            int gameState = 1;
-            string myPlayerName;
-            string myDecision;
-      
-           Console.WriteLine("Enter Player Name");
-           myPlayerName = Console.ReadLine();
-           Console.WriteLine("Welcome {0}, you wake in a dense fog. Only to see a dark silhouette fading into the distance.", myPlayerName);
-           Console.WriteLine("Do you follow the mysterious figure? y / n");
-
-            do
-           {
-               myDecision = Console.ReadLine();
-
-               if (myDecision == "y")
-               {
-                   Console.WriteLine("As you head towards the figure");
-                   gameState = 2;
-               }
-               else if (myDecision == "n")
-               {
-                   Console.WriteLine("You wander in the opposite direction, hoping to find an indication of where you are.");
-                   firstEnemy.enemyPatrol();
-                   gameState = 0;
-               }
-           } while (gameState == 1);
-
-           if (gameState == 0)
-           {
-               Console.WriteLine("impending doom");
-           }
-
-
-
-           if (gameState == 2)
-           {
-               Console.WriteLine("story continues");
-
-
-            
-           }
-
-            titleScreen();
-
-
-        }
-
-        static void infoScreen(int state)
-        {
-            bool screen = true;
-            string info = "How to play:" + "\r\n" + "";
-            Console.Write(info);
-            while(screen == true)
-            {
-                string input = Console.ReadLine();
-                if (input == "1" && state == 1)
-                {
-                    screen = false; //not neccessary, since this just holds the screen waiting for input?
-                    Console.Clear();
-                    titleScreen();
-                }
-            }
-         
-        }
-
-        static void titleScreen()
-        {
-
-        } */
     }
 }
 

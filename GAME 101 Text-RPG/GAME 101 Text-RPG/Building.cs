@@ -1,4 +1,5 @@
-﻿using System;
+﻿using GAME_101_Text_RPG;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -7,8 +8,13 @@ using System.Threading.Tasks;
 namespace GAME_101_Text_RPG
 {
     //creates the game layout of rooms building a graph who's nodes are Rooms (Dictionary, other objects in room)
+    //story currently is only using 1 "floor" of 5 rooms as of Dec 11 2015
     class Building
     {
+        Room R_0; //contains title info, credit info
+        Room gameTools; //contains generic strings to be used through the game
+        Room errorList;
+
         Room R1_1;
         Room R1_2;
         Room R1_3;
@@ -27,19 +33,65 @@ namespace GAME_101_Text_RPG
         Room R3_4;
         Room R3_5;
 
+        Room final;
+
+        Dictionary<int, Room> gameBuilding = new Dictionary<int, Room>();
+
         public Building()
         {
+            fillRooms();
             fillBuilding();
         }
 
-        public void fillBuilding()
+        public Dictionary<int, Room> getBuilding()
         {
-             //fills Building with rooms
-            
+            return gameBuilding;
         }
 
-        public void fillRooms()
+        public Room getRoom(int location)
         {
+            return gameBuilding[location];
+        }
+
+        private void fillBuilding()
+        {
+            gameBuilding.Add(0, R_0);
+            gameBuilding.Add(1, R1_1);
+            gameBuilding.Add(2, R1_2);
+            gameBuilding.Add(3, R1_3);
+            gameBuilding.Add(4, R1_4);
+            gameBuilding.Add(5, R1_5);
+            gameBuilding.Add(6, R2_1);
+            gameBuilding.Add(7, R2_2);
+            gameBuilding.Add(8, R2_3);
+            gameBuilding.Add(9, R2_4);
+            gameBuilding.Add(10, R2_5);
+            gameBuilding.Add(11, R3_1);
+            gameBuilding.Add(12, R3_2);
+            gameBuilding.Add(13, R3_3);
+            gameBuilding.Add(14, R3_4);
+            gameBuilding.Add(15, R3_5);
+            gameBuilding.Add(16, gameTools);
+            gameBuilding.Add(17, errorList);
+        }
+    
+        private void fillRooms()
+        {
+            R_0.choices = new Dictionary<int, string>()
+            {
+                {0, "The Antechamber" },
+                {1, "Start Game" },
+                {2, "Credits" },
+                {3, "Exit" }
+            };
+            R_0.results = new Dictionary<int, string>()
+            {
+                {0, "How long has it been...? I've been wandering and hiding for so long,\nI'm having a hard time recalling my own name, What is it again?" },
+                {1, "Ahh, yes {0}... {0}... {0}. The name is all I have left after what happened. \nI can't let it escape me as well. It's been 3 weeks since the incident. \n I think things have settled down enough for me \nto try to get out of this decrepit place." },
+                { 2, "Designed and programmed by Martins Rugelis, 2015" }
+            };
+            R_0.string1 = "Welcome to the game";
+            //floor 1 room 1
             R1_1.choices = new Dictionary<int, string>()
             {
                 { 1, "Look in closet floor 1 room 1"},
@@ -48,7 +100,16 @@ namespace GAME_101_Text_RPG
                 { 4, "Try to open door floor 1 room 1"},
                 { 5, "Read letter floor 1 room 1"}
             };
-
+            R1_1.results = new Dictionary<int, string>()
+            {
+                {0, "Here it is again... This damned hall." },
+                {1, "Ahh, yes {0}... {0}... {0}. The name is all I have left after what happened. \nI can't let it escape me as well. It's been 3 weeks since the incident. \n I think things have settled down enough for me \nto try to get out of this decrepit place." },
+                { 2, "Designed and programmed by Martins Rugelis, 2015" },
+                 { 3, "Try to leave through entrance floor 1 room 1"},
+                { 4, "Try to open door floor 1 room 1"},
+                { 5, "Read letter floor 1 room 1"}
+            };
+            //R1_1.main = "It has been a long time since I've been here... I wonder where they left "
             //1 = floor 1 room 2
             R1_2.choices = new Dictionary<int, string>()
             {
@@ -57,6 +118,15 @@ namespace GAME_101_Text_RPG
                 { 3, "Try to leave through entrance floor 1 room 2"},
                 { 4, "Try to open door floor 1 room 2"},
                 { 5, "Read letter floor 1 room 2"}
+            };
+            R1_2.results = new Dictionary<int, string>()
+            {
+                {0, "Here it is again... This damned hall." },
+                {1, "Ahh, yes {0}... {0}... {0}. The name is all I have left after what happened. \nI can't let it escape me as well. It's been 3 weeks since the incident. \n I think things have settled down enough for me \nto try to get out of this decrepit place." },
+                { 2, "Designed and programmed by Martins Rugelis, 2015" },
+                 { 3, "Try to leave through entrance floor 1 room 1"},
+                { 4, "Try to open door floor 1 room 1"},
+                { 5, "Read letter floor 1 room 1"}
             };
             //2 = floor 1 room 3
             R1_3.choices = new Dictionary<int, string>()
@@ -67,6 +137,15 @@ namespace GAME_101_Text_RPG
                 { 4, "Try to open door floor 1 room 3"},
                 { 5, "Read letter floor 1 room 3"}
             };
+            R1_3.results = new Dictionary<int, string>()
+            {
+                {0, "Here it is again... This damned hall." },
+                {1, "Ahh, yes {0}... {0}... {0}. The name is all I have left after what happened. \nI can't let it escape me as well. It's been 3 weeks since the incident. \n I think things have settled down enough for me \nto try to get out of this decrepit place." },
+                { 2, "Designed and programmed by Martins Rugelis, 2015" },
+                 { 3, "Try to leave through entrance floor 1 room 1"},
+                { 4, "Try to open door floor 1 room 1"},
+                { 5, "Read letter floor 1 room 1"}
+            };
             //3 = floor 1 room 4
             R1_4.choices = new Dictionary<int, string>()
             {
@@ -76,6 +155,15 @@ namespace GAME_101_Text_RPG
                 { 4, "Try to open door floor 1 room 4"},
                 { 5, "Read letter floor 1 room 4"}
             };
+            R1_4.results = new Dictionary<int, string>()
+            {
+                {0, "Here it is again... This damned hall." },
+                {1, "Ahh, yes {0}... {0}... {0}. The name is all I have left after what happened. \nI can't let it escape me as well. It's been 3 weeks since the incident. \n I think things have settled down enough for me \nto try to get out of this decrepit place." },
+                { 2, "Designed and programmed by Martins Rugelis, 2015" },
+                 { 3, "Try to leave through entrance floor 1 room 1"},
+                { 4, "Try to open door floor 1 room 1"},
+                { 5, "Read letter floor 1 room 1"}
+            };
             //4 = floor 1 room 5
             R1_5.choices = new Dictionary<int, string>()
             {
@@ -84,6 +172,15 @@ namespace GAME_101_Text_RPG
                 { 3, "Try to leave through entrance floor 1 room 5"},
                 { 4, "Try to open door floor 1 room 5"},
                 { 5, "Read letter floor 1 room 5"}
+            };
+            R1_5.results = new Dictionary<int, string>()
+            {
+                {0, "Here it is again... This damned hall." },
+                {1, "Ahh, yes {0}... {0}... {0}. The name is all I have left after what happened. \nI can't let it escape me as well. It's been 3 weeks since the incident. \n I think things have settled down enough for me \nto try to get out of this decrepit place." },
+                { 2, "Designed and programmed by Martins Rugelis, 2015" },
+                 { 3, "Try to leave through entrance floor 1 room 1"},
+                { 4, "Try to open door floor 1 room 1"},
+                { 5, "Read letter floor 1 room 1"}
             };
             //5 = floor 2 room 1
             R2_1.choices = new Dictionary<int, string>()
@@ -180,14 +277,14 @@ namespace GAME_101_Text_RPG
 }
 
 
-
 struct Room
 {
         public Dictionary<int,string> choices;
-        public string choice1;
-        public string choice2;
-        public string choice3;
-        public string choice4;
-        public string choice5;
+        public Dictionary<int, string> results;
+        public string string1;
+        public Enemy enemy;
+        public int string3;
+        public string string4;
+        public string string5;
 };
 

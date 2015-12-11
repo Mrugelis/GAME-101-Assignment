@@ -10,27 +10,71 @@ namespace GAME_101_Text_RPG
     {
         int location;
         int input;
-        string title = "Welcome to the game: 1 for start 0 to quit.";
-     /* Building build = new Building(); 
-            Creates a building object a graph of structs, 
-            where location is used to access a node pointing to the current room
-        */
-        public Engine(int ploc)
+        bool gameRunning;
+        string title = "This is the Game Name";
+        Building build = new Building();
+        Dictionary<int, Room> building;
+        Dictionary<int, string> currentChoices;
+        Dictionary<int, string> currentResults;
+        Room currentRoom;
+        public Engine()
         {
-            location = ploc;
+            location = 0;
             input = 1;
+            building = build.getBuilding();
+            gameRunning = true;
         }
 
+        public void Reset()
+        {
+            location = 0;
+            input = 1;
+            building = build.getBuilding();
+            gameRunning = true;
+        }
+
+        public Dictionary<int,string> Choices
+        {
+            get { return currentChoices; }
+            set { currentChoices = value; }
+        }
+        public Dictionary<int, string> Results
+        {
+            get { return currentResults; }
+            set { currentResults = value; }
+        }
+        public Room RoomInstance 
+        {
+            get { return currentRoom; }
+            set { currentRoom = value; }
+        }
         public int Location
         {
             get { return location; }
             set { location = value; }
         }
 
+        public bool GameRunning
+        {
+            get { return gameRunning; }
+            set { gameRunning = value; }
+        }
+
         public int Input
         {
             get { return input; }
             set { input = value; }
+        }
+
+        public string TitleScreen
+        {
+            get { return title; }
+        }
+
+        public static string getInput()
+        {
+            string name = Console.ReadLine();
+            return name;
         }
 
         public static int userInput(int index)
@@ -42,32 +86,64 @@ namespace GAME_101_Text_RPG
             }
             else
             {
-                Console.WriteLine("Invalid choice");
+//                Console.WriteLine("Invalid choice");
                 return userInput(choice);
             }
         }
-        
-        public string TitleScreen
-        {
 
-            get { return title; }
-            
-        }
- 
-        public static void Draw(Dictionary<int, string> room)
+        public static int Read()
         {
-            for (int i = 1; i <= room.Count; i++)
+            int choice;
+            if (Int32.TryParse(Console.ReadLine(), out choice))
             {
-                Console.WriteLine(room[i]);
+                return choice;
+            }
+            else
+            {
+                //                Console.WriteLine("Invalid choice");
+                return Read();
             }
         }
-    
+        
+        public static string ReadLine()
+        {
+            return Console.ReadLine();
+        }
+        public static void Clear()
+        {
+            Console.Clear();
+        }
+
+        public static void Draw(string story, string pname)
+        {
+            Console.WriteLine(story, pname);
+        }
+        public static void Draw(Dictionary<int, string> roomChoices, int location)
+        {
+            if (location != 0) { 
+            for (int i = 1; i <= roomChoices.Count; i++)
+            {
+                Console.WriteLine("{0}: " + roomChoices[i], i);
+            }
+        }
+            else
+            {
+                for (int i = 1; i < roomChoices.Count; i++)
+                {
+                    Console.WriteLine("{0}: " + roomChoices[i], i);
+                }
+            }
+        }
+        public static void Draw(Player player) //draws the scorecard and stats
+        {
+            Console.WriteLine("Score: '{0}' Health: '{1}' Name: '{2}'\n\n", player.Score, player.Health, player.Name);
+        }
         public static void Draw(string str)
         {
             Console.WriteLine(str);
         }
 
-        public static string getString(int location)
+       /* public  string getString(int location)
         {
             //input is the location of the player
             //output is a story string from that locations dictionary
@@ -78,17 +154,18 @@ namespace GAME_101_Text_RPG
             }
             else
             {
-                int choice = getRoom(location).Count;
-                return getRoom(location)[userInput(choice)];
+                int choice = getChoiceList(location).Count;
+                return currentRoom(location)[userInput(choice)];
             }
         }
-     
-        public static Dictionary<int, string> getRoom(int index)
+     */
+        public Dictionary<int, string> getChoiceList(int index)
         {
             //index is the choice the player makes at a decision point
             //location is which room the player is in
             //0 = floor 1 room 1
-            Dictionary<int, string> f1R1 = new Dictionary<int, string>()
+
+        /*    Dictionary<int, string> f1R1 = new Dictionary<int, string>()
             {
                 { 1, "Look in closet floor 1 room 1"},
                 { 2, "Look in dresser floor 1 room 1"},
@@ -254,28 +331,40 @@ namespace GAME_101_Text_RPG
                 {16, error }
             };
 
-    
-            if (index > 0 && index <=16)
+            */
+            if (index >= 0 && index <=16)
             {
-                return building[index];
+                //return the choices in current room
+                return currentRoom.choices;
             }
             else
             {
-
-                return error;
+                //return list of error strings
+                return build.getRoom(17).choices;
             }
         }
-
-        //what is in a Room
-        struct Room
+        public void Update(Player player, int choice)
         {
-            public Dictionary<int, string> choices;
-            public string choice1;
-            public string choice2;
-            public string choice3;
-            public string choice4;
-            public string choice5;
+            Input = choice;
+            RoomInstance = build.getRoom(player.Location);
+            Choices = currentRoom.choices;
+            Results = currentRoom.results;
         }
+        
+        public void Combat(Player player, Enemy enemy)
+        {
+          
+        }
+        //what is in a Room
+        /* struct Room
+         {
+             public Dictionary<int, string> choices;
+             public string choice1;
+             public string choice2;
+             public string choice3;
+             public string choice4;
+             public string choice5;
+         }*/
     }
 }
 
