@@ -29,12 +29,12 @@ namespace GAME_101_Text_RPG
                 }
                 Engine.Clear();
                 engine.Update(player, 0);
-                Engine.Draw(engine.Choices[0]);
+                Engine.Draw(engine.Choices[0]); //draw menu for running game, seeing credits, exiting game.
                 Engine.Draw(engine.getChoiceList(player.Location), player.Location);
                 choice = Engine.userInput(engine.getChoiceList(player.Location).Count);       //wait for input
                 switch (choice)
                 {
-                    case 1: //start game
+                    case 1: //start game, draw instruction strings and m
                         Engine.Clear();
                         Engine.Draw("Instructions:\nAt any time entering 0 will return you to the main menu, \nno progress will be saved in this version.\nDecisions will be listed by number, \nand entering a number will execute the corresponding choice.\nPress Enter to continue.");
                         Engine.ReadLine();
@@ -104,13 +104,13 @@ namespace GAME_101_Text_RPG
                                     break;
                                 case 4:
                                     Engine.Draw("Seems like there isn't anything of use here");
-
                                     escape = false;
                                     if (player.Location < 5)
                                     {
                                         Engine.Draw("You move onto the next room.");
                                         player.Location++;
                                         engine.Update(player, choice);
+                                        Engine.ReadLine();
                                     }
                                     else
                                     {
@@ -118,7 +118,7 @@ namespace GAME_101_Text_RPG
                                         switch (condition)
                                         {
                                             case 1:
-                                                Engine.Draw("There are still 2 peices i need to complete the lock");
+                                                Engine.Draw("There are still 2 pieces I need to complete the lock");
                                                 Engine.ReadLine();
 
                                                 break;
@@ -131,10 +131,12 @@ namespace GAME_101_Text_RPG
                                                 Engine.Draw("I've done it! I'm finally going to be free of this place!");
                                                 Engine.ReadLine();
                                                 Engine.Draw(engine.Results[choice]);
+                                                Engine.ReadLine();
                                                 engine.doCombat(player, ref escape, choice, ref newGame);
                                                 if(player.Health > 0 && engine.RoomInstance.enemy.Health <= 0)
                                                 {
                                                     engine.GameRunning = false;
+                                                    newGame = true;
                                                     Engine.Clear(); 
                                                     Engine.Draw("Congratulations you have made it out!\n");
                                                     Console.WriteLine("Name: {0}\nScore: {1}\nLevel: {2}",player.Name, player.Score, player.Level);
@@ -148,8 +150,6 @@ namespace GAME_101_Text_RPG
                                                 break;
                                         }
                                     }
-                                    Engine.ReadLine();
-
                                     break;
                                 case 5:
                                     escape = false;

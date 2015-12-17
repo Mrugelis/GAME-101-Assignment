@@ -13,7 +13,6 @@ namespace GAME_101_Text_RPG
         int weaponDamage;
         int points;
         bool alive; //0 aware, 1 unaware
-        static Random rnd = new Random();
 
         public Enemy(int kind)
         {
@@ -26,7 +25,6 @@ namespace GAME_101_Text_RPG
                     Level = 1;
                     points = 100;
                     type = kind;
-                    Location = rndLoc();
                     alive = true;
                     break;
                 case 1:
@@ -36,7 +34,6 @@ namespace GAME_101_Text_RPG
                     points = 1000;
                     Level = 2;
                     type = kind;
-                    Location = rndLoc();
                     alive = true;
 
                     break;
@@ -47,7 +44,6 @@ namespace GAME_101_Text_RPG
                     points = 1500;
                     Level = 5;
                     type = kind;
-                    Location = rndLoc();
                     alive = true;
 
                     break;
@@ -57,7 +53,6 @@ namespace GAME_101_Text_RPG
                     Health = 5;
                     Level = 1;
                     type = kind;
-                    Location = rndLoc();
                     alive = true;
                     break;
             }
@@ -116,7 +111,7 @@ namespace GAME_101_Text_RPG
         }
 
         public static Dictionary<int, Enemy> generateEnemyList()
-        {
+        { 
             Enemy one = new Enemy(0);
             Enemy two = new Enemy(1);
             Enemy three = new Enemy(0);
@@ -143,6 +138,8 @@ namespace GAME_101_Text_RPG
 
         private static int rndLoc()
         {
+            Random rnd = new Random();
+
             return rnd.Next(1, 5);
         }
     }
