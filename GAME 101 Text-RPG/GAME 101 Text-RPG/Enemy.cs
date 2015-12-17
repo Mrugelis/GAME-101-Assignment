@@ -6,11 +6,14 @@ using System.Threading.Tasks;
 
 namespace GAME_101_Text_RPG
 {
-    class Enemy:Character 
+
+    class Enemy :Character 
     {
         int type; //0 regular monster, 1 hard monster, 3 boss monster
-        int weaponDamage; 
-        int currentState; //0 aware, 1 unaware
+        int weaponDamage;
+        int points;
+        bool alive; //0 aware, 1 unaware
+        static Random rnd = new Random();
 
         public Enemy(int kind)
         {
@@ -21,21 +24,32 @@ namespace GAME_101_Text_RPG
                     weaponDamage = 15;
                     Health = 50;
                     Level = 1;
+                    points = 100;
                     type = kind;
+                    Location = rndLoc();
+                    alive = true;
                     break;
                 case 1:
                     Name = "Crazy Monster";
-                    weaponDamage = 25;
-                    Health = 70;
+                    weaponDamage = 50;
+                    Health = 140;
+                    points = 1000;
                     Level = 2;
                     type = kind;
+                    Location = rndLoc();
+                    alive = true;
+
                     break;
-                case 3:
+                case 2:
                     Name = "Boss Monster";
-                    weaponDamage = 35;
-                    Health = 105;
+                    weaponDamage = 75;
+                    Health = 250;
+                    points = 1500;
                     Level = 5;
                     type = kind;
+                    Location = rndLoc();
+                    alive = true;
+
                     break;
                 default:
                     Name = "Monster";
@@ -43,9 +57,23 @@ namespace GAME_101_Text_RPG
                     Health = 5;
                     Level = 1;
                     type = kind;
+                    Location = rndLoc();
+                    alive = true;
                     break;
             }
             
+        }
+        public int Points
+        {
+            get
+            {
+                return points;
+            }
+
+            set
+            {
+                points = value;
+            }
         }
 
         public int WeaponDamage
@@ -61,16 +89,16 @@ namespace GAME_101_Text_RPG
             }
         }
 
-        public int State
+        public bool Alive
         {
             get
             {
-                return currentState;
+                return alive;
             }
 
             set
             {
-                currentState = value;
+                alive = value;
             }
         }
 
@@ -85,6 +113,37 @@ namespace GAME_101_Text_RPG
             {
                 type = value;
             }
+        }
+
+        public static Dictionary<int, Enemy> generateEnemyList()
+        {
+            Enemy one = new Enemy(0);
+            Enemy two = new Enemy(1);
+            Enemy three = new Enemy(0);
+            Enemy four = new Enemy(1);
+            Enemy five = new Enemy(1);
+            Enemy finalBoss = new Enemy(2);
+            one.Location = rndLoc();
+            two.Location = rndLoc();
+            three.Location = rndLoc();
+            four.Location = rndLoc();
+            five.Location = 1;
+            finalBoss.Location = 4;
+            return new Dictionary<int, Enemy>()
+            {
+                {0, one },
+                {1, two },
+                {2,three },
+                {3, four },
+                {4, five },
+                {5, finalBoss}
+       
+            };
+        }
+
+        private static int rndLoc()
+        {
+            return rnd.Next(1, 5);
         }
     }
 }

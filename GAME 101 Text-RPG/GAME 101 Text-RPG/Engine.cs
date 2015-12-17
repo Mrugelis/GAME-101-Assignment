@@ -10,19 +10,31 @@ namespace GAME_101_Text_RPG
     {
         int location;
         int input;
+        int item;
         bool gameRunning;
         string title = "This is the Game Name";
         Building build = new Building();
         Dictionary<int, Room> building;
         Dictionary<int, string> currentChoices;
         Dictionary<int, string> currentResults;
+        Dictionary<int, Enemy> enemyList;
         Room currentRoom;
+        Dictionary<int, int> collected = new Dictionary<int, int>
+        {
+            {1,0},
+            {2,0},
+            {3,0},
+            {4,0},
+            {5,0},
+        };
+
         public Engine()
         {
             location = 0;
             input = 1;
             building = build.getBuilding();
             gameRunning = true;
+            enemyList = Enemy.generateEnemyList();
         }
 
         public void Reset()
@@ -33,6 +45,11 @@ namespace GAME_101_Text_RPG
             gameRunning = true;
         }
 
+        public Dictionary<int, int> Collected
+        {
+            get { return collected; }
+            set { collected = value; }
+        }
         public Dictionary<int,string> Choices
         {
             get { return currentChoices; }
@@ -42,6 +59,11 @@ namespace GAME_101_Text_RPG
         {
             get { return currentResults; }
             set { currentResults = value; }
+        }
+        public Dictionary<int, Enemy> EnemyList
+        {
+            get { return enemyList; }
+            set { enemyList = value; }
         }
         public Room RoomInstance 
         {
@@ -66,11 +88,20 @@ namespace GAME_101_Text_RPG
             set { input = value; }
         }
 
+        public int Item
+        {
+            get { return item; }
+            set { item = value; }
+        }
         public string TitleScreen
         {
             get { return title; }
         }
-
+        public static int rnd()
+        {
+            Random rnd = new Random();
+            return rnd.Next(10);
+        }
         public static string getInput()
         {
             string name = Console.ReadLine();
@@ -136,7 +167,13 @@ namespace GAME_101_Text_RPG
         }
         public static void Draw(Player player) //draws the scorecard and stats
         {
-            Console.WriteLine("Score: '{0}' Health: '{1}' Name: '{2}'\n\n", player.Score, player.Health, player.Name);
+            Console.WriteLine("Score: '{0}' Health: '{1}' Name: '{2}' Level: {3}\n\n", player.Score, player.Health, player.Name, player.Level);
+        }
+        public static void Draw(Player player, Enemy enemy)
+        {
+            Console.WriteLine("Score: '{0}' Health: '{1}' Name: '{2}' Damage: '{3}'\n\n", player.Score, player.Health, player.Name, player.Damage());
+            Console.WriteLine("Health: '{0}' Name: '{1}'\n\n", enemy.Health, enemy.Name);
+
         }
         public static void Draw(string str)
         {
@@ -349,11 +386,126 @@ namespace GAME_101_Text_RPG
             RoomInstance = build.getRoom(player.Location);
             Choices = currentRoom.choices;
             Results = currentRoom.results;
+            Item = currentRoom.item;
         }
         
-        public void Combat(Player player, Enemy enemy)
+        public Boolean Combat(Player player)
         {
-          
+            Enemy enemy = currentRoom.enemy;
+            if(enemy.Health <= 0 || player.Health <= 0)
+            {
+                return false;
+            }
+            else
+            {
+                return true;
+            }
+        }
+        public Boolean hasEnemy(int choice)
+        {
+            if(currentRoom.enemy.Location == choice)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+
+        }
+        public void doCombat(Player player, ref bool escape, int choice, ref bool newGame)
+        {
+            string answer;
+            if (hasEnemy(choice) && RoomInstance.enemy.Alive == true) 
+            {
+                while (Combat(player))
+                {
+                    Engine.Clear(); //clear screen to draw combat
+                    Engine.Draw(player, RoomInstance.enemy);
+                    Engine.Draw("1: Attack\n 2:Run");
+                    choice = Engine.userInput(2);
+                    switch (choice)
+                    {
+                        case 0: //return to title
+                            Engine.Draw("Are you sure you want to return to the main menu? Y/N"); //all string literals in Program.cs will be moved to a dictionary object to be referenced
+                            answer = Engine.getInput();
+                            if (answer == "y" || answer == "Y")
+                            {
+                                GameRunning = false;
+                                newGame = true;
+                                Engine.Clear();
+                            }
+                            break;
+                        case 1:
+                            Console.WriteLine("You attack with {0}, doing {1} damage to the {2}", player.weaponName(), player.Damage(), RoomInstance.enemy.Name);
+                            RoomInstance.enemy.Health -= player.Damage();
+                            if (Engine.rnd() < 4)
+                            {
+                                Console.WriteLine("On counter attack, {0} hits you for {1} damage.", RoomInstance.enemy.Name, RoomInstance.enemy.WeaponDamage);
+                                player.Health -= RoomInstance.enemy.WeaponDamage;
+                            }
+                            Engine.ReadLine();
+
+                            break;
+                        case 2:
+                            if (Engine.rnd() < 2)
+                            {
+                                Console.WriteLine("You fail to escape, {0} hits you for {1} damage.", RoomInstance.enemy.Name, RoomInstance.enemy.WeaponDamage);
+                                player.Health -= RoomInstance.enemy.WeaponDamage;
+                                Engine.ReadLine();
+
+                            }
+                            else
+                            {
+                                escape = true;
+                            }
+                            break;
+                        default:
+                            choice = Engine.userInput(2);
+
+                            break;
+                    }
+                    if (escape == true && player.Location < 5)
+                    {
+                        Engine.Draw("You get away safely, but the monster still lurks");
+                        Engine.ReadLine();
+                        break;
+                    }
+                    else
+                    {
+                        Engine.Draw("You cannot escape this battle!");
+                    }
+
+                }
+                if (player.Health == 0)
+                {
+                    Engine.Clear();
+                    Console.WriteLine("Game Over");
+                    Engine.Draw(player);
+                    Engine.Draw("\nPress Enter to return to the title screen.");
+                    Engine.ReadLine();
+                    GameRunning = false;
+                    newGame = true;
+                    Engine.Clear();
+                }
+                else if (escape == false)
+                {
+                    Engine.Draw("\nHurray you killed the monster!");
+                    player.weaponGet().WeaponLevel++;
+                    player.Score += RoomInstance.enemy.Points;
+
+                    player.Level++;
+                    player.weaponGet().WeaponLevel++;
+                    RoomInstance.enemy.Alive = false;
+                    if (player.Health < Player.maxHP / 4)
+                    {
+                        Engine.Draw("You consume the soul of your fallen enemy, restoring your health");
+
+                        player.Health = Player.maxHP;
+                    }
+                }
+                Engine.ReadLine();
+            }
         }
         //what is in a Room
         /* struct Room

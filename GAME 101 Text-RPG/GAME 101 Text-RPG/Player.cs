@@ -10,16 +10,18 @@ namespace GAME_101_Text_RPG
     {
         int score;
         int collect; //keyitem collection 0,1,2,3
-
+        Weapon weapon;
+       public  static int maxHP = 250;
         public Player()
         {
             collect = 0;
             score = 0;
             Location = 0;
-            Health = 100;
+            Health = 250;
             Experience = 0;
             Level = 1;
             Name = "";
+            weapon = new Weapon();
         }
         public int Score
         {
@@ -41,6 +43,19 @@ namespace GAME_101_Text_RPG
             Experience = 0;
             Level = 1;
             Name = "";
+        }
+        public int Damage()
+        {
+            return weapon.WeaponDamage + weapon.WeaponLevel * Level;
+        }
+        
+        public string weaponName()
+        {
+            return weapon.Name;
+        }
+        public Weapon weaponGet()
+        {
+            return weapon;
         }
     }
 }

@@ -11,48 +11,47 @@ namespace GAME_101_Text_RPG
 
         int weaponDamage;
         int weaponLevel;
-        Weapon[,] weaponCache;
         string name;
-
+        
         public Weapon()
         {
-            weaponDamage = 1;
+            weaponDamage = 13;
             weaponLevel = 1;
             name = "Rusty Spoon";
         }
 
-        public void cacheFill()
-        {
-            //fills weapon cache array
+        /*  public void cacheFill()
+         {
+             //fills weapon cache array
 
-        }
+         }
 
         public Weapon WeaponCache(int level, int index)
-        {
-            return weaponCache[level, index];
-        }
+         {
+             return weaponCache[level, index];
+         }
 
-        public Weapon getWeapon(int level, bool isPlayer)
-        {
-            //takes level of character and checks to see if it is the player and dispenses a weapon
+         public Weapon getWeapon(int level, bool isPlayer)
+         {
+             //takes level of character and checks to see if it is the player and dispenses a weapon
 
-            Random rnd = new Random();
+             Random rnd = new Random();
 
-            if (isPlayer == false)
-            {
-                rnd.Next(1, 5);
+             if (isPlayer == false)
+             {
+                 rnd.Next(1, 5);
 
-                return WeaponCache(level, rnd.Next(1, 5));
-            }
-            else
-            {
+                 return WeaponCache(level, rnd.Next(1, 5));
+             }
+             else
+             {
 
-                rnd.Next(1, 5);
+                 rnd.Next(1, 5);
 
-                return WeaponCache(level, rnd.Next(1, 5));
-            }
-        }
-
+                 return WeaponCache(level, rnd.Next(1, 5));
+             }
+         }
+         */
         public int WeaponDamage
         {
             get
@@ -81,7 +80,7 @@ namespace GAME_101_Text_RPG
         {
             get
             {
-                return Name;
+                return name;
             }
             set
             {
