@@ -235,7 +235,7 @@ namespace GAME_101_Text_RPG
                     escape = false;
                     Clear(); //clear screen to draw combat
                     Draw(player, RoomInstance.enemy);
-                    Draw("1: Attack\n 2:Run");
+                    Draw("1: Attack\n2: Run");
                     choice = userInput(2);
                     switch (choice)
                     {
